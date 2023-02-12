@@ -4,7 +4,6 @@ namespace Maize\Processor;
 
 use DOMDocument;
 use DOMXPath;
-use Illuminate\Support\Str;
 
 class Document
 {
@@ -27,7 +26,7 @@ class Document
         $xslHref = (new DOMXPath($this->document))->evaluate(
             'string(//processing-instruction()[name() = "xml-stylesheet"])'
         );
-        $xslHref = Str::match('/href=[\'"]([^\'"]+)[\'"]/i', $xslHref);
+        $xslHref = $this->match('/href=[\'"]([^\'"]+)[\'"]/i', $xslHref);
 
         $xslPath = dirname(realpath($this->filename))."/$xslHref";
 
@@ -47,5 +46,16 @@ class Document
     public function get(): DOMDocument
     {
         return $this->document;
+    }
+
+    private static function match($pattern, $subject)
+    {
+        preg_match($pattern, $subject, $matches);
+
+        if (! $matches) {
+            return '';
+        }
+
+        return $matches[1] ?? $matches[0];
     }
 }
