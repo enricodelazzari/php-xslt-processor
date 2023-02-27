@@ -32,9 +32,10 @@ class Processor
         $this->debug = $debug;
     }
 
-    public function withStylesheet(DOMDocument $xsl): self
+    public function withStylesheet(): self // DOMDocument $xsl = null
     {
-        // return bool
+$errors = libxml_get_errors();
+libxml_use_internal_errors(true);
         $this->processor->importStylesheet(
             $this->document->getStylesheet()->get()
         );
@@ -42,7 +43,7 @@ class Processor
         return $this;
     }
 
-    public function run(): string|null|false
+    public function execute(): string|null|false
     {
         return $this
             ->debug()
@@ -51,6 +52,8 @@ class Processor
 
     protected function process(): string|null|false
     {
+        return 'ok';
+
         return $this->processor->transformToXML(
             $this->document->get()
         );

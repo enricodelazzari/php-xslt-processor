@@ -21,10 +21,10 @@ class Stylesheet
 
     public static function fromFilename(string $filename): self
     {
-        return new self(
-            $filename,
-            (new DOMDocument())->load($filename)
-        );
+        $document = new DOMDocument();
+        $document->load($filename);
+
+        return new self($filename, $document);
     }
 
     public function get(): DOMDocument

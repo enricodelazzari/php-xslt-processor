@@ -4,6 +4,7 @@ namespace Maize\Processor;
 
 use DOMDocument;
 use DOMXPath;
+use Maize\Processor\Support\Str;
 
 class Document
 {
@@ -15,10 +16,10 @@ class Document
 
     public static function fromFilename(string $filename): self
     {
-        return new self(
-            $filename,
-            (new DOMDocument())->load($filename)
-        );
+        $document = new DOMDocument();
+        $document->load($filename);
+
+        return new self($filename, $document);
     }
 
     public function getStylesheetFilename(): string
@@ -26,7 +27,7 @@ class Document
         $xslHref = (new DOMXPath($this->document))->evaluate(
             'string(//processing-instruction()[name() = "xml-stylesheet"])'
         );
-        $xslHref = $this->match('/href=[\'"]([^\'"]+)[\'"]/i', $xslHref);
+        $xslHref = Str::match('/href=[\'"]([^\'"]+)[\'"]/i', $xslHref);
 
         $xslPath = dirname(realpath($this->filename))."/$xslHref";
 
@@ -46,16 +47,5 @@ class Document
     public function get(): DOMDocument
     {
         return $this->document;
-    }
-
-    private static function match($pattern, $subject)
-    {
-        preg_match($pattern, $subject, $matches);
-
-        if (! $matches) {
-            return '';
-        }
-
-        return $matches[1] ?? $matches[0];
     }
 }
