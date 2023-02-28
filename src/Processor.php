@@ -34,8 +34,6 @@ class Processor
 
     public function withStylesheet(): self // DOMDocument $xsl = null
     {
-$errors = libxml_get_errors();
-libxml_use_internal_errors(true);
         $this->processor->importStylesheet(
             $this->document->getStylesheet()->get()
         );
@@ -52,8 +50,6 @@ libxml_use_internal_errors(true);
 
     protected function process(): string|null|false
     {
-        return 'ok';
-
         return $this->processor->transformToXML(
             $this->document->get()
         );
