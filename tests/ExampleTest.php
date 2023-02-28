@@ -4,9 +4,7 @@ use Maize\Processor\Processor;
 
 it('can test', function ($document, $result) {
 
-    $data = Processor::fromFilename(__DIR__ . $document)
-        ->withStylesheet()
-        ->execute();
+    $data = Processor::fromFilename(__DIR__ . $document)->execute();
 
     expect($data)->toEqual(
         file_get_contents(__DIR__ . $result)

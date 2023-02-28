@@ -9,9 +9,12 @@ class Processor
 {
     public function __construct(
         private Document $document,
-        private XSLTProcessor $processor = new XSLTProcessor(),
+        private ?XSLTProcessor $processor = null,
+        private ?DOMDocument $stylesheet = null,
         private bool $debug = false
     ) {
+        $this->processor ??= new XSLTProcessor();
+        $this->stylesheet = $this->document->getStylesheet()->get();
     }
 
     public static function fromFilename(string $filename): self
@@ -32,11 +35,9 @@ class Processor
         $this->debug = $debug;
     }
 
-    public function withStylesheet(): self // DOMDocument $xsl = null
+    public function withStylesheet(DOMDocument $xsl): self
     {
-        $this->processor->importStylesheet(
-            $this->document->getStylesheet()->get()
-        );
+        $this->stylesheet = $xsl;
 
         return $this;
     }
@@ -45,7 +46,17 @@ class Processor
     {
         return $this
             ->debug()
+            ->importStylesheet()
             ->process();
+    }
+
+    protected function importStylesheet(): self
+    {
+        $this->processor->importStylesheet(
+            $this->stylesheet
+        );
+
+        return $this;
     }
 
     protected function process(): string|null|false
