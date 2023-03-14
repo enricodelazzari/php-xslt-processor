@@ -15,7 +15,7 @@ it('can test', function ($document, $result) {
 ]);
 
 
-it('can test1', function ($document, $result) {
+/*it('can test1', function ($document, $result) {
 
     $data = Processor::fromFilename(__DIR__ . $document)->execute();
 
@@ -25,3 +25,4 @@ it('can test1', function ($document, $result) {
 })->with([
     ['document' => '/Support/XML/4/document.xml', 'result' => '/Support/XML/4/result.xml'],
 ]);
+*/

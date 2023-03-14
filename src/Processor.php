@@ -33,6 +33,8 @@ class Processor
     public function withDebug(bool $debug = true): self
     {
         $this->debug = $debug;
+
+        return $this;
     }
 
     public function withStylesheet(DOMDocument $xsl): self
