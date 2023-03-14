@@ -16,7 +16,7 @@ class Document
 
     public static function fromFilename(string $filename): self
     {
-        $document = new DOMDocument();
+        $document = new DOMDocument(encoding: 'UTF-8');
         $document->load($filename);
 
         return new self($filename, $document);
