@@ -6,12 +6,10 @@ it('can test', function ($document, $result) {
 
     $data = Processor::fromFilename(__DIR__ . $document)->execute();
 
-    $this->assertXmlStringEqualsXmlString(
-        $data,
-        file_get_contents(__DIR__ . $result)
-    );
+    $this->assertXmlStringEqualsXmlFile(__DIR__ . $result, $data);
 
-    // expect($data)->toEqual(
+    // $this->assertXmlStringEqualsXmlString(
+    //     $data,
     //     file_get_contents(__DIR__ . $result)
     // );
 })->with([
