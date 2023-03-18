@@ -2,7 +2,7 @@
 
 use Maize\Processor\Processor;
 
-it('can test', function ($document, $result) {
+it('can process xml with default stylesheet', function ($document, $result) {
     $data = Processor::fromFilename(__DIR__.$document)->execute();
 
     $this->assertXmlStringEqualsXmlFile(__DIR__.$result, $data);
