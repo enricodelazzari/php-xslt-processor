@@ -7,7 +7,7 @@ use DOMDocument;
 class Stylesheet
 {
     public function __construct(
-        private string $filename,
+        // private string $filename,
         private DOMDocument $stylesheet
     ) {
     }
@@ -24,7 +24,7 @@ class Stylesheet
         $document = new DOMDocument();
         $document->load($filename);
 
-        return new self($filename, $document);
+        return new self(/*$filename,*/ $document);
     }
 
     public function get(): DOMDocument

@@ -11,7 +11,7 @@ class Processor
         private Document $document,
         private ?XSLTProcessor $processor = null,
         private ?DOMDocument $stylesheet = null,
-        private bool $debug = false
+        // private bool $debug = false
     ) {
         $this->processor ??= new XSLTProcessor();
         $this->stylesheet = $this->document->getStylesheet()->get();
@@ -30,12 +30,12 @@ class Processor
         return new self($document);
     }
 
-    public function withDebug(bool $debug = true): self
-    {
-        $this->debug = $debug;
+    // public function withDebug(bool $debug = true): self
+    // {
+    //     $this->debug = $debug;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function withStylesheet(DOMDocument $xsl): self
     {
