@@ -47,7 +47,7 @@ class Processor
     public function execute(): string|null|false
     {
         return $this
-            ->debug()
+            // ->debug()
             ->importStylesheet()
             ->process();
     }
@@ -68,13 +68,13 @@ class Processor
         );
     }
 
-    protected function debug(): self
-    {
-        // if ($this->debug) {
-        // $errors = libxml_get_errors();
-        // libxml_use_internal_errors(false);
-        // }
+    // protected function debug(): self
+    // {
+    //     if ($this->debug) {
+    //     $errors = libxml_get_errors();
+    //     libxml_use_internal_errors(false);
+    //     }
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }
