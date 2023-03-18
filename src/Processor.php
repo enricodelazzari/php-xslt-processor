@@ -2,19 +2,23 @@
 
 namespace Maize\Processor;
 
-use DOMDocument;
 use XSLTProcessor;
 
 class Processor
 {
+    private XSLTProcessor $processor;
+
+    private ?Stylesheet $stylesheet;
+
     public function __construct(
         private Document $document,
-        private ?XSLTProcessor $processor = null,
-        private ?DOMDocument $stylesheet = null,
         // private bool $debug = false
     ) {
-        $this->processor ??= new XSLTProcessor();
-        $this->stylesheet = $this->document->getStylesheet()->get();
+        $this
+            ->withProcessor()
+            ->withStylesheet(
+                $this->document->getStylesheet()
+            );
     }
 
     public static function fromFilename(string $filename): self
@@ -37,9 +41,13 @@ class Processor
     //     return $this;
     // }
 
-    public function withStylesheet(DOMDocument $xsl): self
+    public function withStylesheet(Stylesheet|string $stylesheet): self
     {
-        $this->stylesheet = $xsl;
+        if (is_string($stylesheet)) {
+            $stylesheet = Stylesheet::fromFilename($stylesheet);
+        }
+
+        $this->stylesheet = $stylesheet;
 
         return $this;
     }
@@ -55,7 +63,7 @@ class Processor
     protected function importStylesheet(): self
     {
         $this->processor->importStylesheet(
-            $this->stylesheet
+            $this->stylesheet->get()
         );
 
         return $this;
@@ -66,6 +74,13 @@ class Processor
         return $this->processor->transformToXML(
             $this->document->get()
         );
+    }
+
+    private function withProcessor(): self
+    {
+        $this->processor = new XSLTProcessor();
+
+        return $this;
     }
 
     // protected function debug(): self

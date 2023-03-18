@@ -4,6 +4,7 @@ namespace Maize\Processor;
 
 use DOMDocument;
 use DOMXPath;
+use Maize\Processor\Exceptions\InvalidStylesheetException;
 use Maize\Processor\Support\Str;
 
 class Document
@@ -31,10 +32,9 @@ class Document
 
         $xslPath = dirname(realpath($this->filename))."/$xslHref";
 
-        // TODO: check if exists or is a folder
-        // if (! $xslPath) {
-        //     throw new Exception();
-        // }
+        if (! is_file($xslPath)) {
+            throw InvalidStylesheetException::make();
+        }
 
         return $xslPath;
     }
